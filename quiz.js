@@ -42,7 +42,8 @@
      L'ordre ici est l'ordre de la liste déroulante au lancement.            */
   var FICHIERS = [
     'quizvie.js',     // 🤝  Le Grand Quiz des Règles de Vie
-    'quizarna.js'     // 🎣  Les arnaques en ligne
+    'quizarna.js',    // 🎣  Les arnaques en ligne
+    'quizharc.js'     // 🛡️  Reconnaître le harcèlement
   ];
 
   /* ---- Rien à modifier en dessous --------------------------------------- */
