@@ -139,8 +139,20 @@ function demanderNom() {
     const nom = champ.value.trim();
     if (nom.length < 2) { champ.focus(); return; }
     btn.disabled = true;
-    const id = 'j' + Math.random().toString(36).slice(2, 9);
-    await set(ref(db, 'ateliers/parties/' + code + '/joueurs/' + id), { nom, score: 0 });
+
+    // Ce prénom est-il déjà dans la partie ? On reprend sa place plutôt que
+    // d'en créer une seconde — c'est le cas du téléphone verrouillé puis rouvert.
+    let id = null;
+    const dejaLa = await get(ref(db, 'ateliers/parties/' + code + '/joueurs'));
+    if (dejaLa.exists()) {
+      const tous = dejaLa.val();
+      id = Object.keys(tous).find(k =>
+        (tous[k].nom || '').toLowerCase() === nom.toLowerCase()) || null;
+    }
+    if (!id) {
+      id = 'j' + Math.random().toString(36).slice(2, 9);
+      await set(ref(db, 'ateliers/parties/' + code + '/joueurs/' + id), { nom, score: 0 });
+    }
     moi = { id, nom };
     localStorage.setItem(CLE, JSON.stringify(moi));
     afficherMoi();

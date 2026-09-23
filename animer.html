@@ -182,8 +182,17 @@ function dessiner() {
         '</div>' +
         '<div class="url">' + lien.replace(/^https?:\/\//, '') + '</div>' +
         (js.length
-          ? '<div class="joueurs">' + js.map(j => '<span class="pastille">' + j.nom + '</span>').join('') + '</div>'
+          ? '<div class="joueurs">' + js.map(j =>
+              '<span class="pastille" data-id="' + j.id + '" title="Cliquer pour retirer">' +
+              j.nom + ' <span style="opacity:.5;">✕</span></span>').join('') + '</div>' +
+            '<div class="sous" style="font-size:14px;opacity:.6;">Un participant en trop ? Cliquez sur son prénom.</div>'
           : '<div class="sous">En attente des premiers participants…</div>');
+      scene.querySelectorAll('.pastille').forEach(p => {
+        p.style.cursor = 'pointer';
+        p.addEventListener('click', () => {
+          remove(ref(db, chemin() + '/joueurs/' + p.dataset.id));
+        });
+      });
       boutons([
         { texte: 'LANCER LA PREMIÈRE QUESTION', off: js.length === 0, faire: () => poserQuestion(0) },
         { texte: 'Fermer', sec: true, faire: fermer }
