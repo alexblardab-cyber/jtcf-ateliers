@@ -264,6 +264,7 @@ async function repondre(n, choix) {
 
 /* ── Démarrage ──────────────────────────────────────────────────────────── */
 (async function () {
+  await JTCF_QUIZ.pret;                       // les ateliers doivent être chargés
   const snap = await get(ref(db, 'ateliers/parties/' + code));
   if (!snap.exists()) { partie = null; dessiner(); return; }
   try {

@@ -124,7 +124,11 @@
 <canvas id="confettis"></canvas>
 
 <header>
-  <div class="marque">★ JTCF — ATELIERS</div>
+  <div class="marque">★ JTCF — ATELIERS
+    <button id="plein" title="Plein écran (ou touche F11)"
+      style="margin-left:14px;background:rgba(255,255,255,.14);border:none;color:#fff;
+             border-radius:8px;padding:4px 10px;font-size:14px;cursor:pointer;font-family:inherit;">⛶</button>
+  </div>
   <div class="fil" id="fil"></div>
   <div class="infos" id="infos"></div>
 </header>
@@ -135,6 +139,20 @@
 
 <script src="quiz.js"></script>
 <script>
+/* ══ Plein écran ════════════════════════════════════════════════════════════
+   Pour projeter sans la barre d'adresse ni les onglets. La touche F11 fait la
+   même chose — le bouton évite d'avoir à s'en souvenir. */
+document.getElementById('plein').addEventListener('click', function (e) {
+  e.stopPropagation();
+  try {
+    if (document.fullscreenElement) document.exitFullscreen();
+    else document.documentElement.requestFullscreen();
+  } catch (x) { }
+});
+document.addEventListener('fullscreenchange', function () {
+  document.getElementById('plein').textContent = document.fullscreenElement ? '⤢' : '⛶';
+});
+
 /* ══ Confettis ══════════════════════════════════════════════════════════════
    Un petit moteur maison : aucune bibliothèque à charger, donc rien qui
    puisse manquer le jour de l'atelier. */
@@ -546,9 +564,18 @@ async function fermer() {
   location.reload();
 }
 
-window.addEventListener('beforeunload', () => { if (code) remove(ref(db, chemin())); });
+// Garde-fou : fermer l'onglet en pleine séance couperait tous les téléphones.
+window.addEventListener('beforeunload', (e) => {
+  if (code && partie && partie.etat !== 'attente' && partie.etat !== 'finie') {
+    e.preventDefault(); e.returnValue = '';
+    return '';
+  }
+  if (code) remove(ref(db, chemin()));
+});
 
-choisir();
+// On attend que tous les fichiers d'atelier soient chargés avant d'afficher
+// la liste — sinon elle serait vide.
+JTCF_QUIZ.pret.then(choisir);
 </script>
 </body>
 </html>
