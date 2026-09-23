@@ -16,68 +16,91 @@
   }
   header {
     display:flex; align-items:center; justify-content:space-between; gap:16px;
-    padding:12px 22px; background:rgba(0,0,0,.22); flex-wrap:wrap;
+    padding:10px 22px; background:rgba(0,0,0,.24); flex-wrap:wrap;
   }
-  .marque { font-size:15px; font-weight:800; color:var(--or); letter-spacing:2px; }
-  .infos { display:flex; gap:22px; align-items:center; font-size:14px; }
-  .infos b { color:var(--or); font-size:20px; }
-  main { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:24px; text-align:center; gap:20px; }
-  footer { padding:14px 22px; background:rgba(0,0,0,.22); display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+  .marque { font-size:14px; font-weight:800; color:var(--or); letter-spacing:2px; }
+  .fil { font-size:12px; letter-spacing:2px; text-transform:uppercase; opacity:.75; font-weight:700; }
+  .infos { display:flex; gap:20px; align-items:center; font-size:13px; }
+  .infos b { color:var(--or); font-size:19px; }
+  main { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:22px; text-align:center; gap:18px; }
+  footer { padding:13px 22px; background:rgba(0,0,0,.24); display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
 
-  .btn {
-    padding:13px 26px; border:none; border-radius:12px; font-family:inherit;
-    font-size:16px; font-weight:800; cursor:pointer; background:var(--or); color:#22333f;
-  }
+  .btn { padding:13px 26px; border:none; border-radius:12px; font-family:inherit;
+         font-size:16px; font-weight:800; cursor:pointer; background:var(--or); color:#22333f; }
   .btn.sec { background:rgba(255,255,255,.15); color:#fff; }
   .btn:disabled { opacity:.35; cursor:default; }
 
   .titre { font-size:30px; font-weight:800; }
-  .sous  { font-size:17px; opacity:.85; line-height:1.6; max-width:760px; }
+  .sous  { font-size:17px; opacity:.85; line-height:1.6; max-width:780px; }
 
-  .code-geant { font-size:96px; font-weight:900; letter-spacing:14px; color:var(--or); line-height:1; }
-  .url { font-size:19px; opacity:.9; background:rgba(0,0,0,.25); padding:10px 20px; border-radius:10px; }
+  .code-geant { font-size:92px; font-weight:900; letter-spacing:14px; color:var(--or); line-height:1; }
+  .url { font-size:18px; opacity:.9; background:rgba(0,0,0,.25); padding:9px 18px; border-radius:10px; }
   .qr { background:#fff; padding:12px; border-radius:14px; }
-  .qr img { display:block; width:200px; height:200px; }
+  .qr img { display:block; width:190px; height:190px; }
   .accueil { display:flex; gap:34px; align-items:center; flex-wrap:wrap; justify-content:center; }
-
   .joueurs { display:flex; flex-wrap:wrap; gap:9px; justify-content:center; max-width:900px; }
   .pastille { background:rgba(255,255,255,.14); border-radius:20px; padding:7px 16px; font-size:15px; font-weight:700; }
 
-  .enonce { font-size:38px; font-weight:800; line-height:1.3; max-width:1000px; }
-  .grille { display:grid; grid-template-columns:1fr 1fr; gap:14px; width:100%; max-width:980px; }
-  .case {
-    border-radius:16px; padding:22px; font-size:21px; font-weight:700; text-align:left;
-    display:flex; align-items:center; gap:14px; line-height:1.3; position:relative; overflow:hidden;
-  }
-  .c0{background:var(--r);} .c1{background:var(--b);} .c2{background:var(--j);color:#22333f;} .c3{background:var(--v);}
-  .case.pale { opacity:.28; }
-  .case .forme { font-size:26px; }
-  .case .barre { position:absolute; left:0; top:0; bottom:0; background:rgba(255,255,255,.28); width:0; transition:width .7s; }
-  .case .contenu { position:relative; display:flex; align-items:center; gap:14px; width:100%; }
-  .case .nb { margin-left:auto; font-size:24px; font-weight:900; }
-  .case .ok { margin-left:auto; font-size:30px; }
+  /* Écran d'annonce de manche */
+  .manche-num { font-size:110px; font-weight:900; color:var(--or); line-height:.9; }
+  .manche-mot { font-size:15px; letter-spacing:8px; font-weight:800; opacity:.7; }
 
-  .chrono { font-size:56px; font-weight:900; color:var(--or); }
-  .compteur { font-size:19px; opacity:.85; }
+  .emoji { font-size:64px; line-height:1; }
+  .enonce { font-size:34px; font-weight:800; line-height:1.3; max-width:1020px; }
+  .enonce.citation::before { content:'« '; opacity:.55; }
+  .enonce.citation::after  { content:' »'; opacity:.55; }
+  .situation { font-size:25px; font-weight:600; line-height:1.45; max-width:940px; opacity:.95; }
+
+  .grille { display:grid; grid-template-columns:1fr 1fr; gap:13px; width:100%; max-width:960px; }
+  .grille.trois > *:nth-child(3) { grid-column:1 / -1; }
+  .case { border-radius:16px; padding:20px; font-size:20px; font-weight:700; text-align:left;
+          line-height:1.3; position:relative; overflow:hidden; }
+  .c0,.cr{background:var(--r);} .c1,.cb{background:var(--b);}
+  .c2{background:var(--j);color:#22333f;} .c3,.cv{background:var(--v);}
+  .case.pale { opacity:.26; }
+  .case .barre { position:absolute; left:0; top:0; bottom:0; background:rgba(255,255,255,.28); width:0; transition:width .7s; }
+  .case .contenu { position:relative; display:flex; align-items:center; gap:13px; width:100%; }
+  .case .forme { font-size:25px; }
+  .case .nb { margin-left:auto; font-size:23px; font-weight:900; }
+  .case .ok { margin-left:auto; font-size:29px; }
+
+  .indices { display:flex; flex-direction:column; gap:11px; width:100%; max-width:820px; }
+  .indice { display:flex; gap:16px; align-items:center; background:rgba(0,0,0,.24);
+            border-left:4px solid var(--or); border-radius:0 12px 12px 0; padding:16px 22px;
+            font-size:23px; text-align:left; }
+  .indice .n { font-size:12px; letter-spacing:2px; font-weight:800; color:var(--or); min-width:78px; }
+  .indice.cache { opacity:.18; }
+  .indice.cache .txt { filter:blur(7px); }
+
+  .chrono { font-size:50px; font-weight:900; color:var(--or); }
+  .compteur { font-size:18px; opacity:.85; }
   .debat { font-size:26px; font-weight:800; color:var(--or-clair); max-width:900px; line-height:1.4; }
-  .explication {
-    font-size:19px; line-height:1.7; max-width:820px; background:rgba(0,0,0,.25);
-    padding:20px 26px; border-radius:14px; border-left:4px solid var(--or); text-align:left;
-  }
-  table.clas { border-collapse:collapse; font-size:22px; min-width:460px; }
-  table.clas td { padding:11px 18px; border-bottom:1px solid rgba(255,255,255,.14); }
-  table.clas td.r { color:var(--or); font-weight:900; width:60px; }
+  .verdict { font-size:32px; font-weight:900; color:var(--or); }
+  .explication { font-size:19px; line-height:1.7; max-width:840px; background:rgba(0,0,0,.25);
+                 padding:18px 26px; border-radius:14px; border-left:4px solid var(--or); text-align:left; }
+  .regle { font-size:13px; letter-spacing:3px; font-weight:800; opacity:.6; text-transform:uppercase; }
+
+  table.clas { border-collapse:collapse; font-size:22px; min-width:440px; }
+  table.clas td { padding:10px 18px; border-bottom:1px solid rgba(255,255,255,.14); }
+  table.clas td.r { color:var(--or); font-weight:900; width:56px; }
   table.clas td.p { text-align:right; font-weight:800; }
-  select {
-    padding:12px 16px; border-radius:10px; border:2px solid rgba(255,255,255,.25);
-    background:#2a3f4e; color:#fff; font-family:inherit; font-size:16px;
-  }
+
+  .huit { display:grid; grid-template-columns:1fr 1fr; gap:10px; max-width:1000px; text-align:left; }
+  .une { display:flex; gap:12px; align-items:flex-start; background:rgba(0,0,0,.2); border-radius:12px; padding:12px 16px; }
+  .une .ic { font-size:24px; }
+  .une .t { font-size:17px; font-weight:800; }
+  .une .d { font-size:13px; opacity:.75; line-height:1.4; }
+
+  select { padding:12px 16px; border-radius:10px; border:2px solid rgba(255,255,255,.25);
+           background:#2a3f4e; color:#fff; font-family:inherit; font-size:16px; }
+  .reglages { display:flex; gap:14px; align-items:center; flex-wrap:wrap; justify-content:center; }
 </style>
 </head>
 <body>
 
 <header>
   <div class="marque">★ JTCF — ATELIERS</div>
+  <div class="fil" id="fil"></div>
   <div class="infos" id="infos"></div>
 </header>
 
@@ -106,15 +129,20 @@ const FORMES = ['▲', '◆', '●', '■'];
 const scene  = document.getElementById('scene');
 const pilote = document.getElementById('pilote');
 const infos  = document.getElementById('infos');
+const fil    = document.getElementById('fil');
 
-let code = null, quiz = null, partie = null, minuteur = null, reste = 0;
+let idQuiz = null, code = null, quiz = null, partie = null, minuteur = null, reste = 0;
 
 const chemin = () => 'ateliers/parties/' + code;
 const lienJoueur = () => location.href.replace(/animer\.html.*$/, '') + 'jouer.html?code=' + code;
 
+// Présentation d'une réponse selon le format de la question
+const classe = (q, i) => q.type === 'vf' ? (i === 0 ? 'cv' : 'cr') : ('c' + i);
+const forme  = (q, i) => q.type === 'vf' ? (i === 0 ? '✔' : '✘') : FORMES[i];
+
 function boutons(liste) {
   pilote.innerHTML = '';
-  liste.forEach(b => {
+  liste.filter(Boolean).forEach(b => {
     const el = document.createElement('button');
     el.className = 'btn' + (b.sec ? ' sec' : '');
     el.textContent = b.texte;
@@ -124,47 +152,80 @@ function boutons(liste) {
   });
 }
 
-/* ── Choix du quiz ──────────────────────────────────────────────────────── */
+/* ── Choix de l'atelier ─────────────────────────────────────────────────── */
 function choisir() {
   const l = JTCF_QUIZ.liste();
   scene.innerHTML =
     '<div class="titre">Quel atelier aujourd\'hui ?</div>' +
-    '<select id="choix">' +
-      l.map(q => '<option value="' + q.id + '">' + q.icone + '  ' + q.titre + '  (' + q.nb + ' questions)</option>').join('') +
-    '</select>' +
+    '<div class="reglages">' +
+      '<select id="choix">' +
+        l.map(q => '<option value="' + q.id + '">' + q.icone + '  ' + q.titre + '  (' + q.nb + ' questions)</option>').join('') +
+      '</select>' +
+    '</div>' +
     '<div class="sous">Les participants rejoindront avec un code à six chiffres.<br>' +
     'Pense à projeter cet écran avant de lancer.</div>';
   boutons([{ texte: 'OUVRIR LA PARTIE', faire: () => ouvrir(document.getElementById('choix').value) }]);
 }
 
-async function ouvrir(idQuiz) {
-  quiz = JTCF_QUIZ.get(idQuiz);
+async function ouvrir(id) {
+  idQuiz = id;
+  quiz = JTCF_QUIZ.get(id);
   code = String(Math.floor(100000 + Math.random() * 900000));
   await set(ref(db, chemin()), {
-    quiz: idQuiz, titre: quiz.titre, etat: 'attente', q: 0, ouverteLe: Date.now()
+    quiz: id, titre: quiz.titre, etat: 'attente', q: 0, indice: 1, ouverteLe: Date.now()
   });
   onValue(ref(db, chemin()), s => { partie = s.val(); dessiner(); });
 }
 
-/* ── Affichage ──────────────────────────────────────────────────────────── */
-function joueurs() {
+/* ── Lecture de l'état ──────────────────────────────────────────────────── */
+const joueurs = () => {
   const j = (partie && partie.joueurs) || {};
   return Object.keys(j).map(id => ({ id, nom: j[id].nom, score: j[id].score || 0 }));
-}
-function reponsesDe(n) {
-  return (partie && partie.reponses && partie.reponses[n]) || {};
+};
+const reponsesDe = n => (partie && partie.reponses && partie.reponses[n]) || {};
+const compte = (q, n) => {
+  const c = q.reponses.map(() => 0);
+  Object.values(reponsesDe(n)).forEach(r => { if (c[r.c] !== undefined) c[r.c]++; });
+  return c;
+};
+
+function grilleHtml(q, n, mode) {
+  const c = compte(q, n);
+  const total = Math.max(1, Object.keys(reponsesDe(n)).length);
+  return '<div class="grille' + (q.reponses.length === 3 ? ' trois' : '') + '">' +
+    q.reponses.map((r, i) => {
+      const pale = mode === 'solution' && i !== q.bonne;
+      const barre = mode === 'reponses'
+        ? '<div class="barre" style="width:' + Math.round(c[i] / total * 100) + '%"></div>' : '';
+      const fin = mode === 'question' ? ''
+        : (mode === 'solution' && i === q.bonne ? '<span class="ok">✔</span>'
+                                                : '<span class="nb">' + c[i] + '</span>');
+      return '<div class="case ' + classe(q, i) + (pale ? ' pale' : '') + '">' + barre +
+             '<div class="contenu"><span class="forme">' + forme(q, i) + '</span>' +
+             '<span>' + r + '</span>' + fin + '</div></div>';
+    }).join('') + '</div>';
 }
 
+function indicesHtml(q, jusqua) {
+  return '<div class="indices">' + q.indices.map((t, i) =>
+    '<div class="indice' + (i < jusqua ? '' : ' cache') + '">' +
+      '<span class="n">INDICE ' + (i + 1) + '</span><span class="txt">' + t + '</span>' +
+    '</div>').join('') + '</div>';
+}
+
+/* ── Affichage ──────────────────────────────────────────────────────────── */
 function dessiner() {
   if (!partie) return;
-  const n = partie.q || 0;
-  const q = quiz.questions[n];
+  const n  = partie.q || 0;
+  const q  = quiz.questions[n];
   const js = joueurs();
+  const m  = JTCF_QUIZ.manche(idQuiz, q.manche);
 
+  fil.textContent = partie.etat === 'attente' ? ''
+    : 'Manche ' + q.manche + (m ? ' · ' + m.titre : '');
   infos.innerHTML = partie.etat === 'attente'
     ? '<span>👥 <b>' + js.length + '</b> connectés</span>'
-    : '<span>Question <b>' + (n + 1) + '</b>/' + quiz.questions.length + '</span>' +
-      '<span>👥 <b>' + js.length + '</b></span>';
+    : '<span>Q <b>' + (n + 1) + '</b>/' + quiz.questions.length + '</span><span>👥 <b>' + js.length + '</b></span>';
 
   switch (partie.etat) {
 
@@ -173,129 +234,121 @@ function dessiner() {
       scene.innerHTML =
         '<div class="titre">' + quiz.icone + '  ' + quiz.titre + '</div>' +
         '<div class="accueil">' +
-          '<div>' +
-            '<div class="sous" style="margin-bottom:8px;">Rejoignez la partie</div>' +
-            '<div class="code-geant">' + code + '</div>' +
-          '</div>' +
+          '<div><div class="sous" style="margin-bottom:6px;">Rejoignez la partie</div>' +
+          '<div class="code-geant">' + code + '</div></div>' +
           '<div class="qr"><img alt="QR" src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=' +
             encodeURIComponent(lien) + '" onerror="this.parentNode.style.display=\'none\'"></div>' +
         '</div>' +
         '<div class="url">' + lien.replace(/^https?:\/\//, '') + '</div>' +
         (js.length
           ? '<div class="joueurs">' + js.map(j =>
-              '<span class="pastille" data-id="' + j.id + '" title="Cliquer pour retirer">' +
-              j.nom + ' <span style="opacity:.5;">✕</span></span>').join('') + '</div>' +
+              '<span class="pastille" data-id="' + j.id + '">' + j.nom + ' <span style="opacity:.5;">✕</span></span>').join('') + '</div>' +
             '<div class="sous" style="font-size:14px;opacity:.6;">Un participant en trop ? Cliquez sur son prénom.</div>'
           : '<div class="sous">En attente des premiers participants…</div>');
       scene.querySelectorAll('.pastille').forEach(p => {
         p.style.cursor = 'pointer';
-        p.addEventListener('click', () => {
-          remove(ref(db, chemin() + '/joueurs/' + p.dataset.id));
-        });
+        p.addEventListener('click', () => remove(ref(db, chemin() + '/joueurs/' + p.dataset.id)));
       });
       boutons([
-        { texte: 'LANCER LA PREMIÈRE QUESTION', off: js.length === 0, faire: () => poserQuestion(0) },
+        { texte: 'COMMENCER', off: js.length === 0, faire: () => annoncerManche(0) },
         { texte: 'Fermer', sec: true, faire: fermer }
       ]);
       break;
     }
 
+    case 'manche': {
+      scene.innerHTML =
+        '<div class="manche-mot">MANCHE</div>' +
+        '<div class="manche-num">' + q.manche + '</div>' +
+        '<div class="titre">' + (m ? m.titre : '') + '</div>' +
+        '<div class="sous">' + (m ? m.sous : '') + '</div>';
+      boutons([{ texte: 'C\'EST PARTI', faire: () => poserQuestion(n) }]);
+      break;
+    }
+
     case 'question': {
       const nb = Object.keys(reponsesDe(n)).length;
+      const mystere = q.type === 'mystere';
       scene.innerHTML =
         '<div class="chrono" id="chrono">' + reste + '</div>' +
-        '<div class="enonce">' + q.enonce + '</div>' +
-        '<div class="grille">' +
-          q.reponses.map((r, i) =>
-            '<div class="case c' + i + '"><div class="contenu">' +
-              '<span class="forme">' + FORMES[i] + '</span><span>' + r + '</span>' +
-            '</div></div>').join('') +
-        '</div>' +
+        (q.titreCourt ? '<div class="regle">' + q.titreCourt + '</div>' : '') +
+        '<div class="emoji">' + q.emoji + '</div>' +
+        (mystere ? indicesHtml(q, partie.indice || 1) : '') +
+        (q.type === 'choix'
+          ? '<div class="situation">' + q.enonce + '</div>'
+          : '<div class="enonce' + (q.type === 'vf' ? ' citation' : '') + '">' + q.enonce + '</div>') +
+        grilleHtml(q, n, 'question') +
         '<div class="compteur">' + nb + ' réponse' + (nb > 1 ? 's' : '') + ' sur ' + js.length + '</div>';
       boutons([
+        mystere && (partie.indice || 1) < q.indices.length
+          ? { texte: 'INDICE SUIVANT', sec: true,
+              faire: () => update(ref(db, chemin()), { indice: (partie.indice || 1) + 1 }) }
+          : null,
         { texte: 'VOIR LES RÉPONSES', faire: montrerReponses },
-        { texte: 'Arrêter la partie', sec: true, faire: fermer }
+        { texte: 'Arrêter', sec: true, faire: fermer }
       ]);
       if (nb > 0 && nb >= js.length) montrerReponses();
       break;
     }
 
-    case 'reponses': {
-      const rep = reponsesDe(n);
-      const cpt = [0, 0, 0, 0];
-      Object.values(rep).forEach(r => { if (cpt[r.c] !== undefined) cpt[r.c]++; });
-      const total = Math.max(1, Object.keys(rep).length);
+    case 'reponses':
       scene.innerHTML =
-        '<div class="enonce" style="font-size:30px;">' + q.enonce + '</div>' +
-        '<div class="grille">' +
-          q.reponses.map((r, i) =>
-            '<div class="case c' + i + '">' +
-              '<div class="barre" style="width:' + Math.round(cpt[i] / total * 100) + '%"></div>' +
-              '<div class="contenu"><span class="forme">' + FORMES[i] + '</span><span>' + r + '</span>' +
-              '<span class="nb">' + cpt[i] + '</span></div>' +
-            '</div>').join('') +
-        '</div>' +
+        (q.type === 'choix'
+          ? '<div class="situation" style="font-size:21px;">' + q.enonce + '</div>'
+          : '<div class="enonce' + (q.type === 'vf' ? ' citation' : '') + '" style="font-size:27px;">' + q.enonce + '</div>') +
+        grilleHtml(q, n, 'reponses') +
         (q.debat ? '<div class="debat">💬 ' + q.debat + '</div>' : '') +
         '<div class="sous">Personne n\'a encore la bonne réponse. Écoutez-les d\'abord.</div>';
       boutons([
-        { texte: 'RÉVÉLER LA RÉPONSE', faire: reveler },
+        { texte: 'RÉVÉLER', faire: reveler },
         { texte: 'Arrêter', sec: true, faire: fermer }
       ]);
       break;
-    }
 
     case 'solution': {
-      const rep = reponsesDe(n);
-      const cpt = [0, 0, 0, 0];
-      Object.values(rep).forEach(r => { if (cpt[r.c] !== undefined) cpt[r.c]++; });
-      scene.innerHTML =
-        '<div class="grille">' +
-          q.reponses.map((r, i) =>
-            '<div class="case c' + i + (i === q.bonne ? '' : ' pale') + '">' +
-              '<div class="contenu"><span class="forme">' + FORMES[i] + '</span><span>' + r + '</span>' +
-              (i === q.bonne ? '<span class="ok">✔</span>' : '<span class="nb">' + cpt[i] + '</span>') +
-              '</div></div>').join('') +
-        '</div>' +
-        '<div class="explication">' + q.explication + '</div>';
       const dernier = n >= quiz.questions.length - 1;
+      scene.innerHTML =
+        grilleHtml(q, n, 'solution') +
+        '<div class="verdict">' + q.verdict + '</div>' +
+        '<div class="explication">' + q.explication + '</div>' +
+        (q.regle ? '<div class="regle">' + q.regle + '</div>' : '');
       boutons([
-        { texte: 'CLASSEMENT', faire: () => update(ref(db, chemin()), { etat: 'classement' }) },
-        dernier
-          ? { texte: 'TERMINER', faire: terminer }
-          : { texte: 'QUESTION SUIVANTE', faire: () => poserQuestion(n + 1) }
+        { texte: 'CLASSEMENT', sec: true, faire: () => update(ref(db, chemin()), { etat: 'classement' }) },
+        dernier ? { texte: 'TERMINER', faire: terminer }
+                : { texte: 'SUITE', faire: () => suivante(n) }
       ]);
       break;
     }
 
     case 'classement': {
       const top = js.sort((a, b) => b.score - a.score).slice(0, 8);
+      const dernier = n >= quiz.questions.length - 1;
       scene.innerHTML =
         '<div class="titre">🏆 Classement</div>' +
-        '<table class="clas">' +
-          top.map((j, i) =>
-            '<tr><td class="r">' + (i + 1) + '</td><td>' + j.nom + '</td>' +
-            '<td class="p">' + j.score + '</td></tr>').join('') +
+        '<table class="clas">' + top.map((j, i) =>
+          '<tr><td class="r">' + (i + 1) + '</td><td>' + j.nom + '</td><td class="p">' + j.score + '</td></tr>').join('') +
         '</table>';
-      const dernier = n >= quiz.questions.length - 1;
       boutons([
-        dernier
-          ? { texte: 'TERMINER', faire: terminer }
-          : { texte: 'QUESTION SUIVANTE', faire: () => poserQuestion(n + 1) },
+        dernier ? { texte: 'TERMINER', faire: terminer } : { texte: 'SUITE', faire: () => suivante(n) },
         { texte: 'Arrêter', sec: true, faire: fermer }
       ]);
       break;
     }
 
     case 'finie': {
-      const top = js.sort((a, b) => b.score - a.score).slice(0, 8);
+      const top = js.sort((a, b) => b.score - a.score).slice(0, 5);
+      const f = quiz.final;
       scene.innerHTML =
-        '<div class="titre">👏 Atelier terminé</div>' +
-        '<table class="clas">' +
-          top.map((j, i) =>
-            '<tr><td class="r">' + (i + 1) + '</td><td>' + j.nom + '</td>' +
-            '<td class="p">' + j.score + '</td></tr>').join('') +
+        '<div class="titre">🏆 Et le gagnant est…</div>' +
+        '<table class="clas">' + top.map((j, i) =>
+          '<tr><td class="r">' + (i + 1) + '</td><td>' + j.nom + '</td><td class="p">' + j.score + '</td></tr>').join('') +
         '</table>' +
-        '<div class="sous">Merci à tous. Pensez à fermer la partie avant de quitter la salle.</div>';
+        (f ? '<div class="titre" style="font-size:22px;margin-top:10px;">' + f.titre + '</div>' +
+             '<div class="huit">' + f.regles.map((r, i) =>
+               '<div class="une"><span class="ic">' + r[0] + '</span><div>' +
+               '<div class="t">' + (i + 1) + '. ' + r[1] + '</div>' +
+               '<div class="d">' + r[2] + '</div></div></div>').join('') + '</div>' +
+             '<div class="sous">' + f.mot + '</div>' : '');
       boutons([{ texte: 'FERMER LA PARTIE', faire: fermer }]);
       break;
     }
@@ -303,11 +356,22 @@ function dessiner() {
 }
 
 /* ── Pilotage ───────────────────────────────────────────────────────────── */
+function annoncerManche(n) {
+  update(ref(db, chemin()), { etat: 'manche', q: n, indice: 1 });
+}
+
+// Question suivante — avec l'écran d'annonce si on change de manche
+function suivante(n) {
+  const prochain = n + 1;
+  if (quiz.questions[prochain].manche !== quiz.questions[n].manche) annoncerManche(prochain);
+  else poserQuestion(prochain);
+}
+
 function poserQuestion(n) {
   clearInterval(minuteur);
-  const secondes = quiz.questions[n].secondes || 25;
-  reste = secondes;
-  update(ref(db, chemin()), { etat: 'question', q: n, depuis: Date.now() });
+  const q = quiz.questions[n];
+  reste = q.secondes || (q.type === 'choix' ? 45 : q.type === 'mystere' ? 40 : 25);
+  update(ref(db, chemin()), { etat: 'question', q: n, indice: 1, depuis: Date.now() });
   minuteur = setInterval(() => {
     reste--;
     const c = document.getElementById('chrono');
@@ -333,7 +397,7 @@ async function reveler() {
 
   const maj = {};
   justes.forEach((id, rang) => {
-    const bonus = Math.max(0, 50 - rang * 10);       // un coup de pouce aux plus rapides
+    const bonus = Math.max(0, 50 - rang * 10);
     const avant = (partie.joueurs[id] && partie.joueurs[id].score) || 0;
     maj['joueurs/' + id + '/score'] = avant + 100 + bonus;
   });

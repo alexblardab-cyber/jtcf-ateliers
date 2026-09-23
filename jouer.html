@@ -6,48 +6,44 @@
 <title>JTCF — Atelier</title>
 <meta name="theme-color" content="#2a3f4e">
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-  :root {
-    --or:#C9A227; --bleu-fonce:#2a3f4e; --bleu:#3d5a6e;
-    --r:#e53e3e; --b:#2C6E9B; --j:#C9A227; --v:#38a169;
-  }
+  * { box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
+  :root { --or:#C9A227; --r:#e53e3e; --b:#2C6E9B; --j:#C9A227; --v:#38a169; }
   body {
     font-family:'Segoe UI',sans-serif; background:linear-gradient(160deg,#2a3f4e,#3d5a6e);
-    min-height:100vh; color:#fff; display:flex; flex-direction:column;
-    padding:14px; overflow-x:hidden;
+    min-height:100vh; color:#fff; display:flex; flex-direction:column; padding:14px; overflow-x:hidden;
   }
-  .bandeau { text-align:center; padding:6px 0 12px; }
-  .bandeau .code { font-size:12px; letter-spacing:3px; color:var(--or); font-weight:800; }
+  .bandeau { text-align:center; padding:4px 0 10px; }
+  .bandeau .code { font-size:11px; letter-spacing:3px; color:var(--or); font-weight:800; }
   .bandeau .moi  { font-size:13px; opacity:.85; margin-top:2px; }
   .centre { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; gap:14px; }
-  .gros { font-size:22px; font-weight:800; line-height:1.35; }
+  .gros { font-size:21px; font-weight:800; line-height:1.35; }
   .petit { font-size:14px; opacity:.85; line-height:1.6; max-width:300px; }
   .carte { background:rgba(255,255,255,.08); border-radius:18px; padding:22px 18px; width:100%; max-width:340px; }
   input {
     width:100%; padding:14px; border:2px solid rgba(255,255,255,.25); border-radius:12px;
-    font-size:17px; font-family:inherit; background:rgba(255,255,255,.1); color:#fff; outline:none;
-    text-align:center; -webkit-appearance:none;
+    font-size:17px; font-family:inherit; background:rgba(255,255,255,.1); color:#fff;
+    outline:none; text-align:center; -webkit-appearance:none;
   }
   input::placeholder { color:rgba(255,255,255,.5); }
   input:focus { border-color:var(--or); }
-  .btn {
-    width:100%; padding:15px; background:var(--or); color:#2a3f4e; border:none; border-radius:12px;
-    font-size:16px; font-weight:800; font-family:inherit; cursor:pointer; margin-top:12px;
-    touch-action:manipulation;
-  }
+  .btn { width:100%; padding:15px; background:var(--or); color:#2a3f4e; border:none; border-radius:12px;
+         font-size:16px; font-weight:800; font-family:inherit; cursor:pointer; margin-top:12px; touch-action:manipulation; }
   .btn:disabled { opacity:.5; }
+
   .reponses { display:grid; grid-template-columns:1fr 1fr; gap:10px; width:100%; }
-  .rep {
-    border:none; border-radius:16px; color:#fff; font-family:inherit; font-size:15px; font-weight:700;
-    padding:20px 10px; min-height:110px; cursor:pointer; line-height:1.3;
-    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px;
-    touch-action:manipulation; transition:transform .1s;
-  }
+  .reponses.trois > *:nth-child(3) { grid-column:1 / -1; min-height:78px; }
+  .reponses.deux { grid-template-columns:1fr 1fr; }
+  .rep { border:none; border-radius:16px; color:#fff; font-family:inherit; font-size:15px; font-weight:700;
+         padding:18px 10px; min-height:112px; cursor:pointer; line-height:1.3;
+         display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px;
+         touch-action:manipulation; transition:transform .1s; }
   .rep:active { transform:scale(.96); }
-  .rep .forme { font-size:22px; }
-  .rep0{background:var(--r);} .rep1{background:var(--b);} .rep2{background:var(--j);color:#2a3f4e;} .rep3{background:var(--v);}
+  .c0,.cr{background:var(--r);} .c1,.cb{background:var(--b);}
+  .c2{background:var(--j);color:#2a3f4e;} .c3,.cv{background:var(--v);}
+  .rep .forme { font-size:23px; }
   .rep.efface { opacity:.25; }
-  .verdict { font-size:56px; }
+
+  .verdict { font-size:52px; }
   .pts { font-size:18px; font-weight:800; color:var(--or); }
   .attente-pt { display:inline-block; animation:pulse 1.4s infinite; }
   @keyframes pulse { 0%,100%{opacity:.35} 50%{opacity:1} }
@@ -61,9 +57,7 @@
   <div class="moi" id="bMoi"></div>
 </div>
 
-<div class="centre" id="ecran">
-  <div class="gros">Connexion…</div>
-</div>
+<div class="centre" id="ecran"><div class="gros">Connexion…</div></div>
 
 <script src="quiz.js"></script>
 <script type="module">
@@ -84,21 +78,23 @@ const db = getDatabase(initializeApp(firebaseConfig));
 
 const FORMES = ['▲', '◆', '●', '■'];
 const ecran  = document.getElementById('ecran');
+const html   = x => { ecran.innerHTML = x; };
 
-// ── Quelle partie ? ────────────────────────────────────────────────────────
-// Le plus souvent le code arrive par le QR code projeté en salle. S'il manque,
-// on le demande simplement.
+const classe = (q, i) => q.type === 'vf' ? (i === 0 ? 'cv' : 'cr') : ('c' + i);
+const forme  = (q, i) => q.type === 'vf' ? (i === 0 ? '✔' : '✘') : FORMES[i];
+
+/* ── Quelle partie ? ────────────────────────────────────────────────────── */
+// Le plus souvent le code arrive par le QR projeté en salle. Sinon on le demande.
 const code = (new URLSearchParams(location.search).get('code') || '').replace(/\D/g, '');
 
 if (!code) {
-  ecran.innerHTML =
-    '<div class="gros">Rejoindre l\'atelier</div>' +
+  html('<div class="gros">Rejoindre l\'atelier</div>' +
     '<div class="carte">' +
       '<div class="petit" style="margin-bottom:12px;">Saisis le code affiché sur l\'écran.</div>' +
       '<input id="c" placeholder="000000" maxlength="6" inputmode="numeric" ' +
              'style="font-size:30px;letter-spacing:8px;font-weight:800;">' +
       '<button class="btn" id="go">REJOINDRE</button>' +
-    '</div>';
+    '</div>');
   const champ = document.getElementById('c');
   const aller = () => {
     const v = champ.value.replace(/\D/g, '');
@@ -107,31 +103,24 @@ if (!code) {
   document.getElementById('go').addEventListener('click', aller);
   champ.addEventListener('keydown', e => { if (e.key === 'Enter') aller(); });
   champ.focus();
-  throw new Error('en attente du code');   // arrête proprement le reste du script
+  throw new Error('en attente du code');
 }
 
 document.getElementById('bCode').textContent = 'PARTIE ' + code;
 
 const CLE = 'jtcf_atelier_' + code;
-let moi = null;        // { id, nom }
-let partie = null;     // l'état de la partie
-let quiz = null;
-let repondu = {};      // { numeroQuestion : choix }
+let moi = null, partie = null, quiz = null, repondu = {};
 
-function html(x) { ecran.innerHTML = x; }
-
-// ── Entrée dans la partie ──────────────────────────────────────────────────
+/* ── Entrée dans la partie ──────────────────────────────────────────────── */
 function demanderNom() {
-  html(
-    '<div class="gros">Bienvenue 👋</div>' +
+  html('<div class="gros">Bienvenue 👋</div>' +
     '<div class="carte">' +
       '<div class="petit" style="margin-bottom:12px;">Comment tu t\'appelles ?<br>Ton prénom suffit.</div>' +
       '<input id="nom" placeholder="Ton prénom" maxlength="18" autocomplete="off">' +
       '<button class="btn" id="ok">C\'EST PARTI</button>' +
       '<div class="petit" style="margin-top:14px;font-size:12px;opacity:.6;">' +
         'Rien n\'est conservé après l\'atelier.</div>' +
-    '</div>'
-  );
+    '</div>');
   const champ = document.getElementById('nom');
   const btn = document.getElementById('ok');
   champ.focus();
@@ -140,14 +129,13 @@ function demanderNom() {
     if (nom.length < 2) { champ.focus(); return; }
     btn.disabled = true;
 
-    // Ce prénom est-il déjà dans la partie ? On reprend sa place plutôt que
-    // d'en créer une seconde — c'est le cas du téléphone verrouillé puis rouvert.
+    // Ce prénom est-il déjà là ? On reprend sa place plutôt que d'en créer une
+    // seconde — c'est le cas du téléphone verrouillé puis rouvert.
     let id = null;
     const dejaLa = await get(ref(db, 'ateliers/parties/' + code + '/joueurs'));
     if (dejaLa.exists()) {
       const tous = dejaLa.val();
-      id = Object.keys(tous).find(k =>
-        (tous[k].nom || '').toLowerCase() === nom.toLowerCase()) || null;
+      id = Object.keys(tous).find(k => (tous[k].nom || '').toLowerCase() === nom.toLowerCase()) || null;
     }
     if (!id) {
       id = 'j' + Math.random().toString(36).slice(2, 9);
@@ -161,11 +149,9 @@ function demanderNom() {
   champ.addEventListener('keydown', e => { if (e.key === 'Enter') entrer(); });
 }
 
-function afficherMoi() {
-  document.getElementById('bMoi').textContent = moi ? moi.nom : '';
-}
+function afficherMoi() { document.getElementById('bMoi').textContent = moi ? moi.nom : ''; }
 
-// ── Le fil de la partie ────────────────────────────────────────────────────
+/* ── Le fil de la partie ────────────────────────────────────────────────── */
 function dessiner() {
   if (!partie) {
     html('<div class="erreur">Cette partie n\'existe pas ou vient d\'être fermée.</div>' +
@@ -180,64 +166,63 @@ function dessiner() {
   switch (partie.etat) {
 
     case 'attente':
-      html('<div class="verdict">🎉</div>' +
-           '<div class="gros">Tu es dans la partie</div>' +
+      html('<div class="verdict">🎉</div><div class="gros">Tu es dans la partie</div>' +
            '<div class="petit">Regarde l\'écran.<br>Ça commence dans un instant<span class="attente-pt">…</span></div>');
+      break;
+
+    case 'manche':
+      html('<div class="verdict">🎬</div><div class="gros">Manche ' + (q ? q.manche : '') + '</div>' +
+           '<div class="petit">Regarde l\'écran<span class="attente-pt">…</span></div>');
       break;
 
     case 'question':
       if (repondu[n] !== undefined) {
-        html('<div class="verdict">✅</div>' +
-             '<div class="gros">Réponse envoyée</div>' +
+        html('<div class="verdict">✅</div><div class="gros">Réponse envoyée</div>' +
              '<div class="petit">On attend les autres<span class="attente-pt">…</span></div>');
       } else if (q) {
+        const cls = q.reponses.length === 3 ? ' trois' : (q.reponses.length === 2 ? ' deux' : '');
         html('<div class="petit" style="opacity:.7;">Question ' + (n + 1) + ' sur ' + quiz.questions.length + '</div>' +
-             '<div class="gros" style="font-size:17px;margin-bottom:4px;">' + q.enonce + '</div>' +
-             '<div class="reponses">' +
+             (q.type === 'mystere'
+               ? '<div class="gros" style="font-size:17px;">🔍 Quelle règle se cache derrière les indices ?</div>'
+               : '<div class="gros" style="font-size:16px;">' + q.enonce + '</div>') +
+             '<div class="reponses' + cls + '">' +
                q.reponses.map((r, i) =>
-                 '<button class="rep rep' + i + '" data-i="' + i + '">' +
-                   '<span class="forme">' + FORMES[i] + '</span><span>' + r + '</span>' +
-                 '</button>').join('') +
+                 '<button class="rep ' + classe(q, i) + '" data-i="' + i + '">' +
+                   '<span class="forme">' + forme(q, i) + '</span><span>' + r + '</span></button>').join('') +
              '</div>');
-        ecran.querySelectorAll('.rep').forEach(b => {
-          b.addEventListener('click', () => repondre(n, parseInt(b.dataset.i, 10)));
-        });
+        ecran.querySelectorAll('.rep').forEach(b =>
+          b.addEventListener('click', () => repondre(n, parseInt(b.dataset.i, 10))));
       }
       break;
 
     case 'reponses':
-      html('<div class="verdict">👀</div>' +
-           '<div class="gros">Tout le monde a répondu</div>' +
+      html('<div class="verdict">👀</div><div class="gros">Tout le monde a répondu</div>' +
            '<div class="petit">Regarde l\'écran — et dis ce que tu en penses.</div>');
       break;
 
-    case 'solution': {
-      const juste = q && repondu[n] === q.bonne;
+    case 'solution':
       if (repondu[n] === undefined) {
         html('<div class="verdict">⏱️</div><div class="gros">Pas de réponse</div>' +
              '<div class="petit">Ce n\'est pas grave — la prochaine est pour toi.</div>');
-      } else if (juste) {
+      } else if (q && repondu[n] === q.bonne) {
         html('<div class="verdict">🎯</div><div class="gros">Bonne réponse !</div>' +
-             '<div class="pts" id="gain"></div>');
+             '<div class="petit">' + (q.verdict || '') + '</div>');
       } else {
         html('<div class="verdict">😕</div><div class="gros">Ce n\'était pas ça</div>' +
              '<div class="petit">Regarde l\'explication sur l\'écran.</div>');
       }
       break;
-    }
 
     case 'classement': {
       const j = (partie.joueurs && partie.joueurs[moi.id]) || {};
-      html('<div class="verdict">🏅</div>' +
-           '<div class="gros">' + (j.score || 0) + ' points</div>' +
+      html('<div class="verdict">🏅</div><div class="gros">' + (j.score || 0) + ' points</div>' +
            '<div class="petit">Le classement est sur l\'écran.</div>');
       break;
     }
 
     case 'finie': {
       const j = (partie.joueurs && partie.joueurs[moi.id]) || {};
-      html('<div class="verdict">👏</div>' +
-           '<div class="gros">Terminé !</div>' +
+      html('<div class="verdict">👏</div><div class="gros">Terminé !</div>' +
            '<div class="pts">' + (j.score || 0) + ' points</div>' +
            '<div class="petit">Merci d\'avoir joué le jeu.</div>');
       break;
@@ -257,12 +242,10 @@ async function repondre(n, choix) {
   dessiner();
 }
 
-// ── Démarrage ──────────────────────────────────────────────────────────────
+/* ── Démarrage ──────────────────────────────────────────────────────────── */
 (async function () {
   const snap = await get(ref(db, 'ateliers/parties/' + code));
   if (!snap.exists()) { partie = null; dessiner(); return; }
-
-  // Reprise si le téléphone s'est verrouillé ou la page rechargée
   try {
     const garde = JSON.parse(localStorage.getItem(CLE) || 'null');
     if (garde && snap.val().joueurs && snap.val().joueurs[garde.id]) moi = garde;
@@ -272,7 +255,6 @@ async function repondre(n, choix) {
   onValue(ref(db, 'ateliers/parties/' + code), s => {
     partie = s.val();
     if (partie && !quiz) quiz = JTCF_QUIZ.get(partie.quiz);
-    // Retrouver ses propres réponses (utile après un rechargement)
     if (partie && partie.reponses && moi) {
       Object.keys(partie.reponses).forEach(k => {
         const r = partie.reponses[k][moi.id];
