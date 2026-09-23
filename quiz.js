@@ -43,7 +43,10 @@
   var FICHIERS = [
     'quizvie.js',     // 🤝  Le Grand Quiz des Règles de Vie
     'quizarna.js',    // 🎣  Les arnaques en ligne
-    'quizharc.js'     // 🛡️  Reconnaître le harcèlement
+    'quizharc.js',    // 🛡️  Reconnaître le harcèlement
+    'quizconf.js',    // ⚡  Gérer un désaccord
+    'quizpost.js',    // 👔  La posture professionnelle
+    'quizstre.js'     // 🌬️  Le stress, mode d'emploi
   ];
 
   /* ---- Rien à modifier en dessous --------------------------------------- */
