@@ -14,7 +14,9 @@
      emoji        l'illustration affichée en grand
      enonce       l'affirmation ou la situation
      reponses     les propositions
-     bonne        le numéro de la bonne (0 = la première)
+     bonne        le numéro de la bonne — ou de la plus solide (0 = la première)
+     bareme       facultatif : les points de CHAQUE proposition, quand aucune
+                  réponse n'est vraiment fausse (manche « Que fais-tu ? »)
      verdict      la chute, en gras, juste après la révélation
      explication  le développement
      regle        la règle concernée, affichée en bas (facultatif)
@@ -184,7 +186,7 @@
             'J\'entre discrètement, je m\'installe, et je vois le formateur à la pause',
             'J\'entre en expliquant à voix haute ce qui s\'est passé'
           ],
-          bonne:1,
+          bonne:1, bareme:[60, 150, 90],
           debat:'Qui a choisi quoi — et pourquoi ?',
           verdict:'La deuxième.',
           explication:'Entrer discrètement limite la gêne pour le groupe, et s\'expliquer à la pause respecte le formateur. Attendre dans le couloir fait perdre encore plus de contenu — et le retard reste le même.',
@@ -198,7 +200,7 @@
             'Je ne dis rien, mais je ne ris pas',
             'Je dis simplement : « là, c\'est pas ok »'
           ],
-          bonne:2,
+          bonne:2, bareme:[30, 90, 150],
           debat:'Ne pas rire, est-ce que ça suffit ?',
           verdict:'La troisième.',
           explication:'Une phrase courte suffit à faire basculer l\'ambiance. Ne pas rire vaut mieux que rire, mais le silence laisse la personne seule. C\'est presque toujours un témoin qui débloque ce type de situation.',
@@ -212,7 +214,7 @@
             'Je m\'absente quelques jours, le temps que ça aille mieux',
             'Je vais voir le formateur ou le référent pour en parler'
           ],
-          bonne:2,
+          bonne:2, bareme:[60, 40, 150],
           debat:'Qu\'est-ce qui empêche d\'aller en parler ?',
           verdict:'La troisième.',
           explication:'Disparaître transforme un problème passager en rupture de parcours. Le rôle du référent est de chercher des aménagements — encore faut-il qu\'il soit au courant.',

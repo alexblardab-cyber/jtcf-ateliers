@@ -43,6 +43,10 @@
   .rep .forme { font-size:23px; }
   .rep.efface { opacity:.25; }
 
+  .avatars { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-top:12px; }
+  .av { background:rgba(255,255,255,.1); border:2px solid transparent; border-radius:12px;
+        font-size:26px; padding:8px 0; cursor:pointer; touch-action:manipulation; }
+  .av.pris { border-color:var(--or); background:rgba(201,162,39,.25); transform:scale(1.06); }
   .verdict { font-size:52px; }
   .pts { font-size:18px; font-weight:800; color:var(--or); }
   .attente-pt { display:inline-block; animation:pulse 1.4s infinite; }
@@ -79,6 +83,9 @@ const db = getDatabase(initializeApp(firebaseConfig));
 const FORMES = ['▲', '◆', '●', '■'];
 const ecran  = document.getElementById('ecran');
 const html   = x => { ecran.innerHTML = x; };
+
+const AVATARS = ['🦈','🍍','🌋','⚽','🐙','🌺','🔥','🦜','🍕','🎧','🚀','🐢'];
+const vibrer = ms => { try { navigator.vibrate && navigator.vibrate(ms); } catch (e) { } };
 
 const classe = (q, i) => q.type === 'vf' ? (i === 0 ? 'cv' : 'cr') : ('c' + i);
 const forme  = (q, i) => q.type === 'vf' ? (i === 0 ? '✔' : '✘') : FORMES[i];
@@ -117,12 +124,20 @@ function demanderNom() {
     '<div class="carte">' +
       '<div class="petit" style="margin-bottom:12px;">Comment tu t\'appelles ?<br>Ton prénom suffit.</div>' +
       '<input id="nom" placeholder="Ton prénom" maxlength="18" autocomplete="off">' +
+      '<div class="petit" style="margin-top:14px;">Choisis ton emblème</div>' +
+      '<div class="avatars">' + AVATARS.map((a, i) =>
+        '<button class="av' + (i === 0 ? ' pris' : '') + '" data-a="' + a + '">' + a + '</button>').join('') + '</div>' +
       '<button class="btn" id="ok">C\'EST PARTI</button>' +
       '<div class="petit" style="margin-top:14px;font-size:12px;opacity:.6;">' +
         'Rien n\'est conservé après l\'atelier.</div>' +
     '</div>');
   const champ = document.getElementById('nom');
   const btn = document.getElementById('ok');
+  let avatar = AVATARS[0];
+  ecran.querySelectorAll('.av').forEach(b => b.addEventListener('click', () => {
+    ecran.querySelectorAll('.av').forEach(x => x.classList.remove('pris'));
+    b.classList.add('pris'); avatar = b.dataset.a;
+  }));
   champ.focus();
   const entrer = async () => {
     const nom = champ.value.trim();
@@ -139,9 +154,9 @@ function demanderNom() {
     }
     if (!id) {
       id = 'j' + Math.random().toString(36).slice(2, 9);
-      await set(ref(db, 'ateliers/parties/' + code + '/joueurs/' + id), { nom, score: 0 });
+      await set(ref(db, 'ateliers/parties/' + code + '/joueurs/' + id), { nom, av: avatar, score: 0 });
     }
-    moi = { id, nom };
+    moi = { id, nom, av: avatar };
     localStorage.setItem(CLE, JSON.stringify(moi));
     afficherMoi();
   };
@@ -204,10 +219,15 @@ function dessiner() {
       if (repondu[n] === undefined) {
         html('<div class="verdict">⏱️</div><div class="gros">Pas de réponse</div>' +
              '<div class="petit">Ce n\'est pas grave — la prochaine est pour toi.</div>');
+      } else if (q && q.bareme) {
+        html('<div class="verdict">💬</div><div class="gros">+' + q.bareme[repondu[n]] + ' points</div>' +
+             '<div class="petit">Ici, aucune réponse n\'est fausse.<br>Regarde l\'écran — et défends ton choix.</div>');
       } else if (q && repondu[n] === q.bonne) {
+        vibrer(120);
         html('<div class="verdict">🎯</div><div class="gros">Bonne réponse !</div>' +
              '<div class="petit">' + (q.verdict || '') + '</div>');
       } else {
+        vibrer([60, 60, 60]);
         html('<div class="verdict">😕</div><div class="gros">Ce n\'était pas ça</div>' +
              '<div class="petit">Regarde l\'explication sur l\'écran.</div>');
       }
